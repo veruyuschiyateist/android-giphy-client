@@ -1,5 +1,7 @@
 package com.gph.tst.giphytestapp.data.di
 
+import androidx.room.PrimaryKey
+import com.gph.tst.giphytestapp.data.network.api.GiphyApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,11 +32,25 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient =
+    fun provideGiphyApi(retrofit: Retrofit): GiphyApi = retrofit.create(GiphyApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
         OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor())
+            .addInterceptor(httpLoggingInterceptor)
             .addInterceptor { putQueryApiKey(it) }
             .build()
+
+    @Singleton
+    @Provides
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+
+    @Singleton
+    @Provides
+    fun provideMoshiConverterFactory(): MoshiConverterFactory = MoshiConverterFactory.create()
 
     private fun putQueryApiKey(chain: Interceptor.Chain): Response = chain.proceed(
         chain.request()

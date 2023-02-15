@@ -1,6 +1,6 @@
 package com.gph.tst.giphytestapp.data.network.api
 
-import com.gph.tst.giphytestapp.data.network.model.GiphyResponse
+import com.gph.tst.giphytestapp.data.network.model.GiphyApiModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -14,6 +14,6 @@ interface GiphyApi {
         @Query("offset") offset: Int = 0,
         @Query("rating") rating: String = "pg",
         @Query("lang") language: String = "en"
-    ): Response<GiphyResponse>
+    ): Response<GiphyApiModel>
 
 }
