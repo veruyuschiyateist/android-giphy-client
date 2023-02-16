@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+@file:OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class, ExperimentalCoroutinesApi::class,
+    FlowPreview::class
+)
 
 package com.gph.tst.giphytestapp.ui.home
 

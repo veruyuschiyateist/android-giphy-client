@@ -9,6 +9,7 @@ import androidx.paging.RemoteMediator
 import com.gph.tst.giphytestapp.data.local.dao.GiphyDao
 import com.gph.tst.giphytestapp.data.local.entity.GiphyLocalEntity
 import com.gph.tst.giphytestapp.data.network.api.GiphyApi
+import com.gph.tst.giphytestapp.mappers.toLocalEntity
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -52,13 +53,23 @@ class GiphyRemoteMediator @AssistedInject constructor(
     }
 
     private suspend fun fetchGifs(limit: Int, offset: Int): List<GiphyLocalEntity> {
-        val response = giphyApi.search(
-            query = query,
-            limit = limit,
-            offset = offset
-        )
+        val response = if (query.isBlank()) {
+            giphyApi.fetchTrending(limit = limit)
+        } else {
+            giphyApi.search(
+                query = query,
+                limit = limit,
+                offset = offset
+            )
+        }
 
-        return emptyList()
+        if (response.isSuccessful) {
+            return response.body()!!.data
+                .map { it.toLocalEntity() }
+
+        } else {
+            throw Exception()
+        }
     }
 
     @AssistedFactory

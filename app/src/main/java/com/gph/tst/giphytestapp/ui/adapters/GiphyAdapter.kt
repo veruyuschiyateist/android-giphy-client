@@ -1,7 +1,9 @@
 package com.gph.tst.giphytestapp.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,10 +15,19 @@ import com.gph.tst.giphytestapp.ui.adapters.GiphyAdapter.GiphyViewHolder
 
 class GiphyAdapter : PagingDataAdapter<GiphyLocalEntity, GiphyViewHolder>(GiphyDiffCallback()) {
 
-    class GiphyViewHolder(private val binding: GiphyListItemBinding) :
+    class GiphyViewHolder(
+        private val binding: GiphyListItemBinding
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
+        init {
+            binding.root.setOnLongClickListener {
+                true
+            }
+        }
+
         fun bind(giphyLocalEntity: GiphyLocalEntity?) {
+
             Glide.with(binding.root.context)
                 .load(giphyLocalEntity?.url)
                 .placeholder(R.drawable.cat1)

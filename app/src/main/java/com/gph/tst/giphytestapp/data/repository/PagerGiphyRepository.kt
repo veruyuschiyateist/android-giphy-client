@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class PagerGiphyRepository @Inject constructor(
-    private val giphyApi: GiphyApi,
     private val giphyDao: GiphyDao,
     private val giphyRemoteMediator: GiphyRemoteMediator.Factory,
 ) : GiphyRepository {
@@ -22,13 +21,17 @@ class PagerGiphyRepository @Inject constructor(
     override fun getPagedGifs(query: String): Flow<PagingData<GiphyLocalEntity>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 25,
-                initialLoadSize = 25
+                pageSize = PAGE_SIZE,
+                initialLoadSize = PAGE_SIZE
             ),
             remoteMediator = giphyRemoteMediator.create(query),
             pagingSourceFactory = {
                 giphyDao.getGiphyPagingSource(query)
             }
         ).flow
+    }
+
+    companion object {
+        const val PAGE_SIZE = 8
     }
 }
