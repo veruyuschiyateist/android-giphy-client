@@ -8,11 +8,15 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.gph.tst.giphytestapp.data.local.dao.GiphyDao
 import com.gph.tst.giphytestapp.data.local.entity.GiphyLocalEntity
+import com.gph.tst.giphytestapp.data.mappers.toLocalEntity
 import com.gph.tst.giphytestapp.data.network.api.GiphyApi
-import com.gph.tst.giphytestapp.mappers.toLocalEntity
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import java.io.IOException
 
 class GiphyRemoteMediator @AssistedInject constructor(
     private val giphyApi: GiphyApi,
@@ -27,7 +31,7 @@ class GiphyRemoteMediator @AssistedInject constructor(
         state: PagingState<Int, GiphyLocalEntity>,
     ): MediatorResult {
         pageIndex =
-            adjustPageIndex(loadType)
+            getPageIndex(loadType)
                 ?: return MediatorResult.Success(endOfPaginationReached = true)
 
         val limit = state.config.pageSize
@@ -35,27 +39,28 @@ class GiphyRemoteMediator @AssistedInject constructor(
 
         return try {
             val gifs = fetchGifs(limit, offset)
-
-            giphyDao.insert(gifs)
+            if (gifs.isNotEmpty()) {
+                giphyDao.insertAll(gifs)
+            }
 
             MediatorResult.Success(
                 endOfPaginationReached = gifs.size < limit
             )
-        } catch (e: Exception) {
+        } catch (e: IOException) {
+            MediatorResult.Error(e)
+        } catch (e: HttpException) {
             MediatorResult.Error(e)
         }
     }
 
-    private fun adjustPageIndex(loadType: LoadType): Int? = when (loadType) {
+    private fun getPageIndex(loadType: LoadType): Int? = when (loadType) {
         LoadType.REFRESH -> 0
         LoadType.PREPEND -> null
         LoadType.APPEND -> ++pageIndex
     }
 
     private suspend fun fetchGifs(limit: Int, offset: Int): List<GiphyLocalEntity> {
-        val response = if (query.isBlank()) {
-            giphyApi.fetchTrending(limit = limit)
-        } else {
+        val response = withContext(Dispatchers.IO) {
             giphyApi.search(
                 query = query,
                 limit = limit,

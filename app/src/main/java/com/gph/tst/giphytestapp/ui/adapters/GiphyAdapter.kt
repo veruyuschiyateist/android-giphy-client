@@ -1,37 +1,47 @@
 package com.gph.tst.giphytestapp.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnLongClickListener
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
 import com.gph.tst.giphytestapp.R
 import com.gph.tst.giphytestapp.data.local.entity.GiphyLocalEntity
 import com.gph.tst.giphytestapp.databinding.GiphyListItemBinding
 import com.gph.tst.giphytestapp.ui.adapters.GiphyAdapter.GiphyViewHolder
+import kotlin.math.sqrt
 
-class GiphyAdapter : PagingDataAdapter<GiphyLocalEntity, GiphyViewHolder>(GiphyDiffCallback()) {
+typealias OnLongClickItemListener = (GiphyLocalEntity) -> Unit
 
-    class GiphyViewHolder(
-        private val binding: GiphyListItemBinding
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
+class GiphyAdapter(
+    private val listener: OnLongClickItemListener,
+) : PagingDataAdapter<GiphyLocalEntity, GiphyViewHolder>(GiphyDiffCallback()) {
 
-        init {
+    inner class GiphyViewHolder(
+        private val binding: GiphyListItemBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(
+            giphyLocalEntity: GiphyLocalEntity?,
+        ) {
+
             binding.root.setOnLongClickListener {
-                true
+                listener.invoke(giphyLocalEntity!!)
+                return@setOnLongClickListener true
             }
-        }
-
-        fun bind(giphyLocalEntity: GiphyLocalEntity?) {
-
+            
             Glide.with(binding.root.context)
                 .load(giphyLocalEntity?.url)
                 .placeholder(R.drawable.cat1)
-                .into(binding.imagePost)
+                .into(binding.imageView)
+
         }
     }
 
@@ -44,6 +54,10 @@ class GiphyAdapter : PagingDataAdapter<GiphyLocalEntity, GiphyViewHolder>(GiphyD
             GiphyListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return GiphyViewHolder(binding)
+    }
+    
+    companion object {
+        private const val TAG = "GiphyAdapter"
     }
 }
 

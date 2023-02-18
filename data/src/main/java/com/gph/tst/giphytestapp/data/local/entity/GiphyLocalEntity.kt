@@ -7,5 +7,8 @@ import androidx.room.PrimaryKey
 data class GiphyLocalEntity(
     @PrimaryKey val id: String,
     val title: String,
-    val url: String
+    val url: String,
+    val height: Int,
+    val width: Int,
+    val removed: Boolean = false,
 )

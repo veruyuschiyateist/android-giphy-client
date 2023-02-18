@@ -6,8 +6,12 @@ import kotlinx.coroutines.flow.Flow
 
 interface GiphyRepository {
 
-    /**
-     * Get the paging list of gifs.
-     */
     fun getPagedGifs(query: String = ""): Flow<PagingData<GiphyLocalEntity>>
+
+    suspend fun remove(id: String)
+
+    /**
+     * Deprecated
+     */
+    suspend fun remove(giphyLocalEntity: GiphyLocalEntity)
 }

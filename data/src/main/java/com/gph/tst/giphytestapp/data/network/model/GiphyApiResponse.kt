@@ -13,10 +13,12 @@ data class GiphyApiModel(
 )
 
 data class GiphyImagesApiModel(
-    @Json(name = "original") val original: GiphyOriginalApiModel
+    @Json(name = "original") val original: GiphyOriginalApiModel,
 )
 
 data class GiphyOriginalApiModel(
-    @Json(name = "url") val url: String
+    @Json(name = "url") val url: String,
+    @Json(name = "height") val height: Int,
+    @Json(name = "width") val width: Int,
 )
 

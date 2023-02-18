@@ -2,9 +2,11 @@ package com.gph.tst.giphytestapp.ui.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.gph.tst.giphytestapp.databinding.ActivityHomeBinding
 import com.gph.tst.giphytestapp.ui.adapters.GiphyAdapter
@@ -28,23 +30,28 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupList() {
-        val adapter = GiphyAdapter()
+        val adapter = GiphyAdapter {
+            Log.d(TAG, "setupList: ${it.id}")
+            viewModel.remove(it)
+        }
+
         val footerAdapter = GiphyLoadStateAdapter()
 
         val adapterWithLoadState = adapter.withLoadStateFooter(footerAdapter)
-        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManager = GridLayoutManager(this, 2)
 
         binding.recyclerView.apply {
             this.layoutManager = layoutManager
             this.adapter = adapterWithLoadState
+            setHasFixedSize(true)
         }
 
         observeGifs(adapter)
     }
 
     private fun setupSearchField() {
-        binding.queryEditText.addTextChangedListener {
-            viewModel.setQuery(query = it.toString())
+        binding.queryEditText.editText?.addTextChangedListener {
+            viewModel.setQuery(query = it.toString().trim())
         }
     }
 
