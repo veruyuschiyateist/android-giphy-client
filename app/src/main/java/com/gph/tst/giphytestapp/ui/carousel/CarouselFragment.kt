@@ -1,11 +1,12 @@
-package com.gph.tst.giphytestapp.ui.fragments
+package com.gph.tst.giphytestapp.ui.carousel
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,26 +14,16 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import com.gph.tst.giphytestapp.R
 import com.gph.tst.giphytestapp.databinding.FragmentCarouselBinding
-import com.gph.tst.giphytestapp.databinding.FragmentHomeBinding
-import com.gph.tst.giphytestapp.ui.adapters.GiphyAdapter
-import com.gph.tst.giphytestapp.ui.carousel.BoundsOffsetDecoration
-import com.gph.tst.giphytestapp.ui.carousel.CarouselAdapter
-import com.gph.tst.giphytestapp.ui.carousel.CarouselItemDecoration
-import com.gph.tst.giphytestapp.ui.carousel.ImageItem
+import com.gph.tst.giphytestapp.ui.adapters.CarouselPagingAdapter
 import com.gph.tst.giphytestapp.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val CURRENT_GIF_PARAM = "param1"
 
 @AndroidEntryPoint
-
 class CarouselFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var currentGifParam: Int? = null
 
     private lateinit var binding: FragmentCarouselBinding
     private val viewModel by activityViewModels<HomeViewModel>()
@@ -42,8 +33,7 @@ class CarouselFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            currentGifParam = it.getInt(CURRENT_GIF_PARAM)
         }
     }
 
@@ -53,36 +43,26 @@ class CarouselFragment : Fragment() {
     ): View {
         binding = FragmentCarouselBinding.inflate(inflater, container, false)
 
-        setupList()
+        setupList(currentGifParam ?: 0)
 
         return binding.root
     }
 
-    private fun setupList() {
-
-        val images = listOf(
-            ImageItem(R.drawable.cat1),
-            ImageItem(R.drawable.cat2),
-            ImageItem(R.drawable.cat3),
-            ImageItem(R.drawable.cat4),
-            ImageItem(R.drawable.cat5),
-            ImageItem(R.drawable.cat6),
-            ImageItem(R.drawable.cat7),
-            ImageItem(R.drawable.cat8),
-            ImageItem(R.drawable.cat9)
-        )
+    private fun setupList(position: Int) {
         val adapter = CarouselPagingAdapter()
+        val recyclerView = binding.carouselRecyclerView
 
-        binding.carouselRecyclerView.apply {
+        recyclerView.apply {
             layoutManager =
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
 
-//            this.adapter = CarouselAdapter(images = images)
             this.adapter = adapter
 
             addItemDecoration(
                 CarouselItemDecoration(
-                    innerSpacing = resources.getDimensionPixelSize(R.dimen.carousel_spacing)
+                    innerSpacing = resources.getDimensionPixelSize(
+                        R.dimen.carousel_spacing
+                    )
                 )
             )
             addItemDecoration(BoundsOffsetDecoration())
@@ -93,7 +73,7 @@ class CarouselFragment : Fragment() {
 
         observeGifs(adapter)
 
-        initRecyclerViewPosition(position = 3)
+        initRecyclerViewPosition(position)
     }
 
     private fun initRecyclerViewPosition(position: Int) {
@@ -103,8 +83,9 @@ class CarouselFragment : Fragment() {
         layoutManager.scrollToPosition(position)
 
         binding.carouselRecyclerView.doOnPreDraw {
-            val targetView = binding.carouselRecyclerView.layoutManager?.findViewByPosition(position)
-                ?: return@doOnPreDraw
+            val targetView =
+                binding.carouselRecyclerView.layoutManager?.findViewByPosition(position)
+                    ?: return@doOnPreDraw
 
             val distanceToFinalSnap =
                 snapHelper.calculateDistanceToFinalSnap(layoutManager, targetView)
@@ -125,12 +106,9 @@ class CarouselFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(currentGif: Int) =
             CarouselFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+                arguments = bundleOf(CURRENT_GIF_PARAM to currentGif)
             }
     }
 }

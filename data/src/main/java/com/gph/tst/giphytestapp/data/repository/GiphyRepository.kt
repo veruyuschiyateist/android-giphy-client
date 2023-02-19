@@ -6,12 +6,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface GiphyRepository {
 
+    /**
+     * Local model [GiphyLocalEntity] is emitted for simplicity
+     */
     fun getPagedGifs(query: String = ""): Flow<PagingData<GiphyLocalEntity>>
 
     suspend fun remove(id: String)
 
-    /**
-     * Deprecated
-     */
+
+    @Deprecated(message = "Will be removed in the future")
     suspend fun remove(giphyLocalEntity: GiphyLocalEntity)
 }

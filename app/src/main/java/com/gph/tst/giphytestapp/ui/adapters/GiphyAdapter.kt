@@ -12,7 +12,7 @@ import com.gph.tst.giphytestapp.databinding.GiphyListItemBinding
 import com.gph.tst.giphytestapp.ui.adapters.GiphyAdapter.GiphyViewHolder
 
 typealias OnLongClickItemListener = (GiphyLocalEntity) -> Unit
-typealias OnClickItemListener = (String) -> Unit
+typealias OnClickItemListener = (Int) -> Unit
 
 class GiphyAdapter(
     private val longClickListener: OnLongClickItemListener,
@@ -25,6 +25,7 @@ class GiphyAdapter(
 
         fun bind(
             giphyLocalEntity: GiphyLocalEntity?,
+            position: Int
         ) {
 
             binding.root.setOnLongClickListener {
@@ -33,7 +34,7 @@ class GiphyAdapter(
             }
 
             binding.root.setOnClickListener {
-                clickListener.invoke(giphyLocalEntity?.id!!)
+                clickListener.invoke(position)
             }
             
             Glide.with(binding.root.context)
@@ -45,7 +46,7 @@ class GiphyAdapter(
     }
 
     override fun onBindViewHolder(holder: GiphyViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GiphyViewHolder {

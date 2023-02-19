@@ -1,10 +1,11 @@
-package com.gph.tst.giphytestapp.ui.fragments
+package com.gph.tst.giphytestapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.gph.tst.giphytestapp.R
+import com.gph.tst.giphytestapp.ui.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

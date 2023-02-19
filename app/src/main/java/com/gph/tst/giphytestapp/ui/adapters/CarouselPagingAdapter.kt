@@ -1,4 +1,4 @@
-package com.gph.tst.giphytestapp.ui.fragments
+package com.gph.tst.giphytestapp.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.gph.tst.giphytestapp.R
 import com.gph.tst.giphytestapp.data.local.entity.GiphyLocalEntity
 import com.gph.tst.giphytestapp.databinding.CarouselListItemBinding
-import com.gph.tst.giphytestapp.ui.adapters.GiphyDiffCallback
 import kotlin.math.roundToInt
 
 class CarouselPagingAdapter :
