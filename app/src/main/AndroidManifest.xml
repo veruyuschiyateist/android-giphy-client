@@ -15,16 +15,27 @@
         android:theme="@style/Theme.GiphyTestApp"
         tools:targetApi="31">
         <activity
-            android:name=".PagerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.home.HomeActivity"
-            android:exported="true">
+            android:name=".ui.fragments.MainActivity"
+            android:exported="true" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".ui.carousel.CarouselActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
     </application>
 

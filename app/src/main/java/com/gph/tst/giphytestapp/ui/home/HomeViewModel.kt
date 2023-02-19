@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val giphyRepository: com.gph.tst.giphytestapp.data.repository.GiphyRepository,
+    private val giphyRepository: GiphyRepository,
 ) : ViewModel() {
 
     private val queryFlow = MutableStateFlow("")
@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(
         queryFlow.value = query
     }
 
-    fun remove(giphyLocalEntity: com.gph.tst.giphytestapp.data.local.entity.GiphyLocalEntity) {
+    fun remove(giphyLocalEntity: GiphyLocalEntity) {
         viewModelScope.launch {
             giphyRepository.remove(giphyLocalEntity)
         }

@@ -1,27 +1,22 @@
 package com.gph.tst.giphytestapp.ui.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.view.View.OnLongClickListener
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.widget.Toast
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
 import com.gph.tst.giphytestapp.R
 import com.gph.tst.giphytestapp.data.local.entity.GiphyLocalEntity
 import com.gph.tst.giphytestapp.databinding.GiphyListItemBinding
 import com.gph.tst.giphytestapp.ui.adapters.GiphyAdapter.GiphyViewHolder
-import kotlin.math.sqrt
 
 typealias OnLongClickItemListener = (GiphyLocalEntity) -> Unit
+typealias OnClickItemListener = (String) -> Unit
 
 class GiphyAdapter(
-    private val listener: OnLongClickItemListener,
+    private val longClickListener: OnLongClickItemListener,
+    private val clickListener: OnClickItemListener
 ) : PagingDataAdapter<GiphyLocalEntity, GiphyViewHolder>(GiphyDiffCallback()) {
 
     inner class GiphyViewHolder(
@@ -33,8 +28,12 @@ class GiphyAdapter(
         ) {
 
             binding.root.setOnLongClickListener {
-                listener.invoke(giphyLocalEntity!!)
+                longClickListener.invoke(giphyLocalEntity!!)
                 return@setOnLongClickListener true
+            }
+
+            binding.root.setOnClickListener {
+                clickListener.invoke(giphyLocalEntity?.id!!)
             }
             
             Glide.with(binding.root.context)

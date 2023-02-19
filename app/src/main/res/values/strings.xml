@@ -2,4 +2,6 @@
     <string name="app_name">GiphyTestApp</string>
     <string name="search">Search...</string>
     <string name="giphy">Giphy</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

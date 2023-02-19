@@ -11,4 +11,7 @@ data class GiphyLocalEntity(
     val height: Int,
     val width: Int,
     val removed: Boolean = false,
-)
+) {
+    val aspectRatio: Float
+        get() = width / height.toFloat()
+}
