@@ -2,6 +2,9 @@ package com.gph.tst.giphytestapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.window.OnBackInvokedDispatcher
+import androidx.activity.addCallback
+import androidx.core.os.BuildCompat
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.gph.tst.giphytestapp.R
@@ -20,6 +23,10 @@ class MainActivity : AppCompatActivity() {
                 setReorderingAllowed(true)
                 add<HomeFragment>(R.id.fragment_container_view)
             }
+        }
+
+        onBackPressedDispatcher.addCallback {
+            supportFragmentManager.popBackStack()
         }
     }
 }

@@ -5,6 +5,7 @@
 
 package com.gph.tst.giphytestapp.ui.home
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -20,12 +21,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val giphyRepository: GiphyRepository,
 ) : ViewModel() {
 
-    private val queryFlow = MutableStateFlow("")
+    val query = savedStateHandle.getStateFlow("query", "")
 
-    val giphyFlow = queryFlow.asStateFlow()
+    val giphyFlow = query
         .debounce(500)
         .flatMapLatest {
             giphyRepository.getPagedGifs(it)
@@ -36,7 +38,7 @@ class HomeViewModel @Inject constructor(
         }
 
     fun setQuery(query: String) {
-        queryFlow.value = query
+        savedStateHandle["query"] = query
     }
 
     fun remove(giphyLocalEntity: GiphyLocalEntity) {

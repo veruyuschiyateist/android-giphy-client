@@ -51,6 +51,7 @@ class HomeFragment : Fragment() {
                 requireActivity().supportFragmentManager.commit {
                     setReorderingAllowed(true)
                     add(R.id.fragment_container_view, CarouselFragment.newInstance(currentGif = it))
+                    addToBackStack(null)
                 }
             }
         )
@@ -70,6 +71,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupSearchField() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.query.collect {
+                binding.queryEditText.editText?.setText(it)
+                binding.queryEditText.editText?.setSelection(it.length)
+            }
+        }
         binding.queryEditText.editText?.addTextChangedListener {
             viewModel.setQuery(query = it.toString().trim())
         }
