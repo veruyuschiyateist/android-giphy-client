@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">GiphyTestApp</string>
-    <string name="search">Search...</string>
+    <string name="search">Search</string>
     <string name="giphy">Giphy</string>
     <string name="confirmation_question">Are you sure you want to delete this gif?</string>
     <string name="yes">Yes</string>
@@ -11,4 +11,13 @@
     <string name="email_address">Email Address</string>
     <string name="continue_text">Continue</string>
     <string name="password">Password</string>
+    <string name="log_in_account">Log in Account</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign up</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="search_menu_title">Search</string>
+    <string name="favourite">Favourite</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home</string>
 </resources>

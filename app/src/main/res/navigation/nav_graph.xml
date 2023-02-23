@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <navigation android:id="@+id/navigation"
+        app:startDestination="@id/signUpFragment">
+        <fragment
+            android:id="@+id/signInFragment"
+            android:name="com.gph.tst.giphytestapp.ui.auth.signin.SignInFragment"
+            android:label="fragment_sign_in"
+            tools:layout="@layout/fragment_sign_in">
+            <action
+                android:id="@+id/action_signInFragment_to_signUpFragment"
+                app:destination="@id/signUpFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/signUpFragment"
+            android:name="com.gph.tst.giphytestapp.ui.auth.signup.SignUpFragment"
+            android:label="fragment_sign_up"
+            tools:layout="@layout/fragment_sign_up">
+            <action
+                android:id="@+id/action_signUpFragment_to_signInFragment"
+                app:destination="@id/signInFragment" />
+        </fragment>
+    </navigation>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.gph.tst.giphytestapp.ui.home.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_carouselFragment"
+            app:destination="@id/carouselFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.gph.tst.giphytestapp.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.gph.tst.giphytestapp.ui.favourite.FavouriteFragment"
+        android:label="fragment_favourite"
+        tools:layout="@layout/fragment_favourite" />
+    <fragment
+        android:id="@+id/carouselFragment"
+        android:name="com.gph.tst.giphytestapp.ui.home.carousel.CarouselFragment"
+        android:label="CarouselFragment" />
+</navigation>
