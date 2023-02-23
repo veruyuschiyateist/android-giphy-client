@@ -2,6 +2,10 @@ package com.gph.tst.giphytestapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.gph.tst.giphytestapp.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -12,16 +16,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        if (savedInstanceState == null) {
-//            supportFragmentManager.commit {
-//                setReorderingAllowed(true)
-//                add<SignUpFragment>(R.id.fragment_container_view)
-////                add<HomeFragment>(R.id.fragment_container_view)
-//            }
-//        }
-//
-//        onBackPressedDispatcher.addCallback {
-//            supportFragmentManager.popBackStack()
-//        }
+        setupBottomNav()
     }
+
+    private fun setupBottomNav() {
+        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        bottomNavView.setupWithNavController(navController)
+    }
+
 }

@@ -10,13 +10,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.gph.tst.giphytestapp.R
 import com.gph.tst.giphytestapp.databinding.FragmentHomeBinding
-import com.gph.tst.giphytestapp.ui.adapters.GiphyAdapter
-import com.gph.tst.giphytestapp.ui.adapters.GiphyLoadStateAdapter
-import com.gph.tst.giphytestapp.ui.carousel.CarouselFragment
-import com.gph.tst.giphytestapp.ui.confirmation.RemoveGifAlertDialog
+import com.gph.tst.giphytestapp.ui.home.adapters.GiphyAdapter
+import com.gph.tst.giphytestapp.ui.home.adapters.GiphyLoadStateAdapter
+import com.gph.tst.giphytestapp.ui.home.carousel.CarouselFragment
+import com.gph.tst.giphytestapp.ui.home.confirmation.RemoveGifAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -48,11 +49,8 @@ class HomeFragment : Fragment() {
                 removeGifAlertDialog.show(requireActivity().supportFragmentManager, "tag")
             },
             clickListener = {
-                requireActivity().supportFragmentManager.commit {
-                    setReorderingAllowed(true)
-//                    add(R.id.fragment_container_view, CarouselFragment.newInstance(currentGif = it))
-                    addToBackStack(null)
-                }
+                findNavController()
+                    .navigate(R.id.action_homeFragment_to_carouselFragment)
             }
         )
 
