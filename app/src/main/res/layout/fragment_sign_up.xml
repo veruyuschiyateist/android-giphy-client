@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="48dp"
-    tools:context=".ui.auth.SignUpFragment">
+    tools:context=".ui.auth.signup.SignUpFragment">
 
     <TextView
         android:id="@+id/createAccountTextView"
@@ -62,5 +62,16 @@
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="@string/continue_text" />
+
+    <TextView
+        android:id="@+id/signInMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/continueButton"
+        android:layout_marginTop="24dp"
+        android:text="@string/already_have_an_account_login"
+        android:textColor="@color/secondary"
+        android:textSize="16sp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

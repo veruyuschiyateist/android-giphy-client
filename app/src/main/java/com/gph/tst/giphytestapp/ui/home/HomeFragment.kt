@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
             clickListener = {
                 requireActivity().supportFragmentManager.commit {
                     setReorderingAllowed(true)
-                    add(R.id.fragment_container_view, CarouselFragment.newInstance(currentGif = it))
+//                    add(R.id.fragment_container_view, CarouselFragment.newInstance(currentGif = it))
                     addToBackStack(null)
                 }
             }
