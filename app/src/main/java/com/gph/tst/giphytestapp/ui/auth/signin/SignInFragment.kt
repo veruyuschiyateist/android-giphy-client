@@ -43,7 +43,7 @@ class SignInFragment : Fragment() {
         val spannableString = SpannableString(string)
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                navigateToSignIn()
+                navigateToSignUp()
             }
 
             override fun updateDrawState(ds: TextPaint) {
@@ -67,9 +67,9 @@ class SignInFragment : Fragment() {
         }
     }
 
-    private fun navigateToSignIn() {
+    private fun navigateToSignUp() {
         val navController = findNavController()
 
-        navController.navigate(R.id.action_signInFragment_to_signUpFragment)
+        navController.navigate(R.id.signUpFragment)
     }
 }

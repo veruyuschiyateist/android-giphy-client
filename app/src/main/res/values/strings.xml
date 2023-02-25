@@ -20,4 +20,6 @@
     <string name="favourite">Favourite</string>
     <string name="profile">Profile</string>
     <string name="home">Home</string>
+    <string name="save">Save</string>
+    <string name="auth_default_error_message">There is an error! Try again!</string>
 </resources>

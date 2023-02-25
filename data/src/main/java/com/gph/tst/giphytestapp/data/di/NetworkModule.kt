@@ -1,6 +1,7 @@
 package com.gph.tst.giphytestapp.data.di
 
 import androidx.room.PrimaryKey
+import com.google.firebase.auth.FirebaseAuth
 import com.gph.tst.giphytestapp.data.network.api.GiphyApi
 import dagger.Module
 import dagger.Provides
@@ -62,5 +63,9 @@ object NetworkModule {
             )
             .build()
     )
+
+    @Singleton
+    @Provides
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 }
 

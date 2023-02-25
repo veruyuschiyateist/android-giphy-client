@@ -10,14 +10,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.gph.tst.giphytestapp.R
 import com.gph.tst.giphytestapp.databinding.FragmentSignUpBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
+
+    private val viewModel by viewModels<SignUpViewModel>()
 
     private lateinit var binding: FragmentSignUpBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +38,56 @@ class SignUpFragment : Fragment() {
         binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
 
         setupSpannable()
+        setupContinueButton()
 
+        observeState()
+        
         return binding.root
+    }
+
+    private fun observeState() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.signUpUiState.collect { it ->
+                binding.loader.isIndeterminate = it is SignUpViewModel.SignUpUiState.Loading
+
+                when (it) {
+                    SignUpViewModel.SignUpUiState.Idle -> {}
+                    is SignUpViewModel.SignUpUiState.Error -> {
+                        showMessage(it.message.takeIf { message -> message.isNotEmpty() }
+                            ?: getString(R.string.auth_default_error_message))
+                    }
+                    SignUpViewModel.SignUpUiState.Loading -> {}
+                    SignUpViewModel.SignUpUiState.Success -> {
+                        navigateToHome()
+                    }
+                }
+            }
+        }
+
+    }
+
+    private fun showMessage(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun showMessage(@StringRes messageId: Int) {
+        Snackbar.make(binding.root, getString(messageId), Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun navigateToHome() {
+        findNavController().navigate(R.id.action_signUpFragment_to_homeFragment)
+    }
+
+    private fun setupContinueButton() {
+        binding.continueButton.setOnClickListener {
+            val email = binding.emailAddressTextField.editText?.text.toString()
+            val password = binding.passwordTextField.editText?.text.toString()
+
+            viewModel.onContinue(
+                email = email,
+                password = password
+            )
+        }
     }
 
     private fun setupSpannable() {
@@ -69,7 +123,7 @@ class SignUpFragment : Fragment() {
     private fun navigateToSignIn() {
         val navController = findNavController()
 
-        navController.navigate(R.id.action_signUpFragment_to_signInFragment)
+        navController.navigate(R.id.signInFragment)
     }
 
     companion object {
