@@ -1,11 +1,10 @@
 package com.gph.tst.giphytestapp.data.di
 
-import com.gph.tst.giphytestapp.data.repository.FirebaseAuthManager
-import com.gph.tst.giphytestapp.data.repository.FirebaseAuthRepository
-import com.gph.tst.giphytestapp.data.repository.GiphyRepository
-import com.gph.tst.giphytestapp.data.repository.PagerGiphyRepository
+import com.gph.tst.giphytestapp.data.repository.*
 import com.gph.tst.giphytestapp.domain.repository.AuthManager
 import com.gph.tst.giphytestapp.domain.repository.AuthRepository
+import com.gph.tst.giphytestapp.domain.repository.FavouriteRepository
+import com.gph.tst.giphytestapp.domain.repository.ProfileRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -27,4 +26,12 @@ abstract class DataModule {
     @Singleton
     @Binds
     abstract fun bindAuthManger(firebaseAuthManager: FirebaseAuthManager): AuthManager
+
+    @Singleton
+    @Binds
+    abstract fun bindRemoteProfileRepository(remoteProfileRepository: RemoteProfileRepository): ProfileRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindFavouriteRepository(remoteFavouriteRepository: RemoteFavouriteRepository): FavouriteRepository
 }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.add
@@ -16,6 +17,7 @@ import com.gph.tst.giphytestapp.R
 import com.gph.tst.giphytestapp.databinding.FragmentHomeBinding
 import com.gph.tst.giphytestapp.ui.home.adapters.GiphyAdapter
 import com.gph.tst.giphytestapp.ui.home.adapters.GiphyLoadStateAdapter
+import com.gph.tst.giphytestapp.ui.home.carousel.CURRENT_GIF_PARAM
 import com.gph.tst.giphytestapp.ui.home.carousel.CarouselFragment
 import com.gph.tst.giphytestapp.ui.home.confirmation.RemoveGifAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,15 +44,21 @@ class HomeFragment : Fragment() {
     private fun setupList() {
         val adapter = GiphyAdapter(
             longClickListener = {
-                val removeGifAlertDialog = RemoveGifAlertDialog {
-                    viewModel.remove(it)
-
-                }
+                val removeGifAlertDialog = RemoveGifAlertDialog(
+                    onLikeListener = {
+                        viewModel.save(it)
+                    },
+                    onRemoveListener = {
+                        viewModel.remove(it)
+                    }
+                )
                 removeGifAlertDialog.show(requireActivity().supportFragmentManager, "tag")
             },
-            clickListener = {
+            clickListener = { pos ->
+                val bundle = bundleOf(CURRENT_GIF_PARAM to pos)
+
                 findNavController()
-                    .navigate(R.id.action_homeFragment_to_carouselFragment)
+                    .navigate(R.id.action_homeFragment_to_carouselFragment, bundle)
             }
         )
 

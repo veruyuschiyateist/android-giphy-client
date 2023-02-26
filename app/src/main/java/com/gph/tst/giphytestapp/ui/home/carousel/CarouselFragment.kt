@@ -19,7 +19,7 @@ import com.gph.tst.giphytestapp.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
-private const val CURRENT_GIF_PARAM = "param1"
+const val CURRENT_GIF_PARAM = "gifPosition"
 
 @AndroidEntryPoint
 class CarouselFragment : Fragment() {
@@ -33,7 +33,7 @@ class CarouselFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            currentGifParam = it.getInt(CURRENT_GIF_PARAM)
+            currentGifParam = arguments?.getInt(CURRENT_GIF_PARAM)
         }
     }
 

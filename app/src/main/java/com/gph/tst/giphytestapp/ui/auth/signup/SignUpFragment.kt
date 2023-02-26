@@ -132,3 +132,4 @@ class SignUpFragment : Fragment() {
 
 
 }
+

@@ -44,5 +44,11 @@
     <fragment
         android:id="@+id/carouselFragment"
         android:name="com.gph.tst.giphytestapp.ui.home.carousel.CarouselFragment"
-        android:label="CarouselFragment" />
+        android:label="CarouselFragment">
+
+        <argument
+            android:name="gifPosition"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>

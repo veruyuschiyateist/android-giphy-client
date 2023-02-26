@@ -1,7 +1,9 @@
 package com.gph.tst.giphytestapp.ui.home.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +18,7 @@ typealias OnClickItemListener = (Int) -> Unit
 
 class GiphyAdapter(
     private val longClickListener: OnLongClickItemListener,
-    private val clickListener: OnClickItemListener
+    private val clickListener: OnClickItemListener,
 ) : PagingDataAdapter<GiphyLocalEntity, GiphyViewHolder>(GiphyDiffCallback()) {
 
     inner class GiphyViewHolder(
@@ -36,7 +38,7 @@ class GiphyAdapter(
             binding.root.setOnClickListener {
                 clickListener.invoke(position)
             }
-            
+
             Glide.with(binding.root.context)
                 .load(giphyLocalEntity?.url)
                 .placeholder(R.drawable.cat1)
@@ -52,6 +54,7 @@ class GiphyAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GiphyViewHolder {
         val binding =
             GiphyListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
 
         return GiphyViewHolder(binding)
     }

@@ -8,7 +8,8 @@ import androidx.fragment.app.DialogFragment
 import com.gph.tst.giphytestapp.R
 
 class RemoveGifAlertDialog(
-    private val listener: () -> Unit,
+    private val onLikeListener: () -> Unit,
+    private val onRemoveListener: () -> Unit,
 ) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -18,11 +19,11 @@ class RemoveGifAlertDialog(
                 .setPositiveButton(
                     R.string.yes,
                     DialogInterface.OnClickListener { dialog, id ->
-                        listener.invoke()
+                        onLikeListener.invoke()
                     })
                 .setNegativeButton(R.string.no,
                     DialogInterface.OnClickListener { dialog, id ->
-                        dialog.cancel()
+                        onRemoveListener.invoke()
                     })
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
