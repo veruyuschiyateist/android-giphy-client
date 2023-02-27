@@ -43,6 +43,18 @@
         app:layout_constraintTop_toBottomOf="@+id/userName"
         tools:text="youremail@domain.com" />
 
+    <TextView
+        android:id="@+id/userPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/secondary"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userEmail"
+        tools:text="+3901234213212" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editNameTextField"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -59,13 +71,28 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editEmailTextField"
+        android:id="@+id/editSurnameTextField"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintTop_toBottomOf="@id/editNameTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="33dp"
-        android:hint="@string/email_address">
+        android:hint="@string/surname">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editPhoneTextField"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/editSurnameTextField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:hint="@string/phone">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -75,12 +102,22 @@
 
     <Button
         android:id="@+id/continueButton"
-        app:layout_constraintTop_toBottomOf="@id/editEmailTextField"
+        app:layout_constraintTop_toBottomOf="@id/editPhoneTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="@string/save" />
+
+    <Button
+        android:id="@+id/exitButton"
+        app:layout_constraintTop_toBottomOf="@id/continueButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/exit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

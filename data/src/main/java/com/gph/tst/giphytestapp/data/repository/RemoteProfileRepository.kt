@@ -47,7 +47,6 @@ class RemoteProfileRepository @Inject constructor(
             val userMap = hashMapOf(
                 "name" to profile.name,
                 "surname" to profile.surname,
-                "email" to profile.email,
                 "phone" to profile.phone
             )
 

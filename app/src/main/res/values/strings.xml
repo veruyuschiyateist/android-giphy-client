@@ -22,4 +22,9 @@
     <string name="home">Home</string>
     <string name="save">Save</string>
     <string name="auth_default_error_message">There is an error! Try again!</string>
+    <string name="exit">Exit</string>
+    <string name="surname">Surname</string>
+    <string name="loading">Loading...</string>
+    <string name="try_again">Try again!</string>
+    <string name="phone">Phone</string>
 </resources>
