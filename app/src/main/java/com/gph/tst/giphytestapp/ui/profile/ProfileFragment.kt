@@ -1,10 +1,12 @@
 package com.gph.tst.giphytestapp.ui.profile
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -12,12 +14,15 @@ import com.google.android.material.snackbar.Snackbar
 import com.gph.tst.giphytestapp.R
 import com.gph.tst.giphytestapp.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.annotation.Nullable
 
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val viewModel by viewModels<ProfileViewModel>()
+
+    var uri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +37,10 @@ class ProfileFragment : Fragment() {
 
         setupButtons()
         setUpFields()
+
+        binding.profileImage.setOnClickListener {
+            selectImage()
+        }
 
         return binding.root
     }
@@ -81,5 +90,20 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun selectImage() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(intent, 100)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 100 && data != null && data.data != null) {
+            uri = data.data;
+            binding.profileImage.setImageURI(uri)
+        }
+    }
 
 }
